@@ -21,7 +21,7 @@
       win_file:
         path: "{{ item.path }}"
         state: directory
-        with_items: "{{ iis_sites }}"
+      with_items: "{{ iis_sites }}"
     
     - name: Create IIS site
       win_iis_website:
