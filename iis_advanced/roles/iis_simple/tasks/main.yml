@@ -18,7 +18,7 @@
     state: started
     port: "{{ item.port }}"
     physical_path: "{{ item.path }}"
-  with_items: "{{ iss_sites }}"
+  with_items: "{{ iis_sites }}"
   notify: restart iis service
 
 - name: Open port for site on the firewall
