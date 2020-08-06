@@ -1,0 +1,7 @@
+---
+- name: ping task
+  hosts: CS_AD
+
+  tasks:
+    - name: ping
+    - ping:
