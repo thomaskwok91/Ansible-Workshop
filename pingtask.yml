@@ -1,3 +1,6 @@
 ---
-- tasks:
+- hosts: CS_AD
+  name: Ping Test
+  
+  tasks:
     - ping:
