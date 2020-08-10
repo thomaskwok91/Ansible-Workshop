@@ -2,6 +2,7 @@
 - hosts: all
   name: Update Machine
   become: True
+  become_method: sudo
   vars:
     ansible_python_interpreter: /usr/bin/python3
   
