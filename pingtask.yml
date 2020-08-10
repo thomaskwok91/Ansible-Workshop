@@ -1,5 +1,5 @@
 ---
-- hosts: webserver
+- hosts: all
   name: Ping Test
   
   tasks:
