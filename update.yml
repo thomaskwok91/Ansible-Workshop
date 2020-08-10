@@ -1,11 +1,10 @@
 ---
 - hosts: all
   name: Update Machine
+  become: true
   
   tasks:
     - name: update and upgrade all apps
-      become: true
-      become_method: sudo
       apt:
         name: "*"
         state: latest
