@@ -1,5 +1,5 @@
 ---
-- hosts: CS_AD
+- hosts: CS-Test1
   name: Ping Test
   
   tasks:
