@@ -3,13 +3,12 @@
   name: Update Machine
   
   tasks:
-  - name: Run 'apt-get update'
-    apt:
-      update_cache: yes
-  
-  - name: update all apts
-    apt:
-      name: "*"
-      state: latest
+    - name: update and upgrade all apps
+      apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+        force_apt_get: yes
+        
       
   
