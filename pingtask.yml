@@ -1,5 +1,5 @@
 ---
-- hosts: 146.95.15.16
+- hosts: CS-Test1
   name: Ping Test
   
   tasks:
