@@ -4,6 +4,7 @@
   
   tasks:
     - name: update and upgrade all apps
+      become: yes
       apt:
         name: "*"
         state: latest
