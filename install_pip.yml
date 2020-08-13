@@ -18,6 +18,7 @@
         name: /opt/pythonapp
         state: directory
         recurse: yes
+      become_user: root
     - name: Install virtualenv module
       pip:
         name: virtualenv
