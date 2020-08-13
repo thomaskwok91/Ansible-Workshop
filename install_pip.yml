@@ -21,8 +21,3 @@
         name: virtualenv
         state: latest
         executable: pip3
-    - name: Create virtualenv for app
-      pip:
-        name: bottle
-        state: latest
-        virtualenv: /opt/pythonapp/appenv
