@@ -6,7 +6,7 @@
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
-    - easy install: 
+    - easy_install: 
         name: pip
         state: latest
       become_user: root
