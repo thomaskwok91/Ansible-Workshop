@@ -1,0 +1,13 @@
+---
+- hosts: all
+  name: Install PSQL
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  
+  tasks:
+    - name: Install PSQL
+      apt:
+        name: postgresql
+        state: present
+      become_user: root
