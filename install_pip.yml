@@ -7,7 +7,7 @@
   
   tasks:
     - name: Install Pip
-      - easy install: 
+    - easy install: 
         name: pip
         state: latest
       become_user: root
