@@ -1,0 +1,38 @@
+---
+- hosts: all
+  name: Anaconda
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  
+  task:
+    - name: Install pre-requisites
+      apt:
+        name: ['libgl1-mesa-glx', 'libegl1-mesa', 'libxrandr2', 'libxrandr2', 'libxss1', 'libxcursor1', 'libxcomposite1', 'libasound2', 'libxi6', 'libxtst6']
+        state: latest
+      become_user: root
+    - name: Download Anaconda
+      get_url:
+        url: https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh
+        dest: /tmp/Anaconda3-2020.07-Linux-x86_64.sh
+    - name: Create conda folder
+      file:
+        path: /opt/anaconda3
+        state: directory
+        owner: tkwok
+        mode: 755
+        recurse: yes
+    - name: Run the installer
+      shell: bash /tmp/Anaconda3-2020.07-Linux-x86_64.sh -b -u -p /opt/anaconda3
+    - name: Add anaconda bin to path
+      shell: echo 'export PATH=/opt/anaconda3/bin:$PATH' >> /etc/profile
+    - name: conda - read permission for all
+      file:
+        path: /opt/anaconda3
+        mode: +r
+        recurse: yes
+    - name: conda - execution permission for all
+      file:
+        path: /opt/anaconda3/bin
+        mode: +x
+        recurse: yes
