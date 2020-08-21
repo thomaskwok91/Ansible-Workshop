@@ -4,4 +4,8 @@
   name: Uptime
   
   tasks:
-    - uptime:
+    - name: uptime command
+      shell: uptime
+      register: hostname
+    - debug:
+        var: hostname
