@@ -1,0 +1,7 @@
+
+---
+- hosts: all
+  name: Uptime
+  
+  tasks:
+    - uptime:
