@@ -27,7 +27,7 @@
     - name: Run the installer
       shell: bash /tmp/Anaconda3-2020.07-Linux-x86_64.sh -b -u -p /opt/anaconda3
     - name: Add anaconda bin to path
-      become_user: tkwok
+      become_user: root
       shell: echo 'export PATH=/opt/anaconda3/bin:$PATH' >> /etc/profile
     - name: conda - read permission for all
       file:
