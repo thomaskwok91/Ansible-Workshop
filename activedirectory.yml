@@ -1,6 +1,4 @@
 ---
-## This playbook installs and configures AD authentication
-
 - name: Install and configure AD authentication
   hosts: all
   gather_facts: no
@@ -9,7 +7,7 @@
   vars_prompt:
     - name: "bind_password"
       prompt: "Password for tk912@hunter.local"
-      private: no
+      private: yes
 
   tasks:
     - name: Install the required packages
