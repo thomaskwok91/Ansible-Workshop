@@ -9,7 +9,7 @@
   vars_prompt:
     - name: "bind_password"
       prompt: "Password for tk912@hunter.local"
-      private: yes
+      private: no
 
   tasks:
     - name: Install the required packages
