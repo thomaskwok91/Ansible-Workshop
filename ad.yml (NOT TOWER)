@@ -1,0 +1,49 @@
+---
+- name: Install and configure AD authentication
+  hosts: ub-adt3
+  gather_facts: no
+  become: true
+  vars_prompt:
+    - name: "bind_password"
+      prompt: "Password for tk912@hunter.local"
+      private: yes
+
+  tasks:
+    - name: Install the required packages
+      apt:
+        name: ['krb5-user', 'samba', 'sssd', 'sssd-tools', 'libnss-sss', 'libpam-sss', 'ntp', 'ntpdate', 'realmd', 'adcli']
+        state: present
+      notify:
+        - restart realmd
+
+    - name: Install pexpect using pip
+      pip:
+        name: pexpect
+
+    - name: Join system to AD and add the computer object in the Linux OU
+      expect:
+        command: /bin/bash -c "/usr/sbin/realm join --user=tk912 hunter.local"
+        responses:
+          Password for *: "{{ bind_password }}"
+
+    - name: Add default_domain_suffix to sssd.conf
+      lineinfile:
+        dest: /etc/sssd/sssd.conf
+        line: 'default_domain_suffix = yallalabs.local'
+        insertafter: '^\[sssd\]'
+      notify:
+        - restart sssd
+
+    - name: Allow the cstest group to logon to the system
+      command: /bin/bash -c "/usr/sbin/realm permit -g cstest"
+
+  handlers:
+    - name: restart realmd
+      service:
+        name: realmd
+        state: restarted
+
+    - name: restart sssd
+      service:
+        name: sssd
+        state: restarted
