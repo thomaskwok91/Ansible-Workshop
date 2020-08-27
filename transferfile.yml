@@ -1,0 +1,9 @@
+---
+- name: transfer /etc/hosts from host machine to other machines
+  hosts: all
+  become: yes
+  become_user: root
+  
+  tasks:
+    - name: Push /etc/hosts to /etc/hosts.2 in machines
+      template: src=/etc/hosts  dest=/etc/hosts.2
