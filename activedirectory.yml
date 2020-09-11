@@ -20,15 +20,12 @@
         name: pexpect
       become_user: root
       
-    - name: Check if machine is bound
-      shell: /bin/bash -c "realm list | grep sssd"
-      register: realmd_bound
-
     - name: Join system to AD and add the computer object in the Linux OU
       expect:
         command: /bin/bash -c "/usr/sbin/realm join --user=tk912 hunter.local"
         responses:
           Password for *: "{{ bind_password }}"
+      become_user: root
 
     - name: Add default_domain_suffix to sssd.conf
       lineinfile:
