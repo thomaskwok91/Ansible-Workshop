@@ -34,24 +34,24 @@
       with_items: 
           - 'nameserver 146.95.1.12'
           - 'nameserver 146.95.1.17'
-     
+          
     - name: Configure ntp clock
       lineinfile:
         path: /etc/ntp.conf
         line: 'server mds5.hunter.local'
         insertafter: '3.ubuntu.pool'
         backup: yes
-    
+ 
     - name: stop ntp service
-      service: ntp
-      state: stopped
-    
+      service: name=ntpd state=stopped enabled=yes
+      tags: ntp
+ 
     - name: update ntp service
-      shell: sudo ntpdate mds5.hunter.local
+      shell: ntpdate mds5.hunter.local
     
     - name: start ntp service
-      service: ntp
-      state: started
+      service: name=ntpd state=running enabled=yes
+      tags: ntp
         
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
