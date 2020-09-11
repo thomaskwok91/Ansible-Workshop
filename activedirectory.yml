@@ -41,6 +41,17 @@
         line: 'server mds5.hunter.local'
         insertafter: '3.ubuntu.pool'
         backup: yes
+    
+    - name: stop ntp service
+      service: ntp
+      state: stopped
+    
+    - name: update ntp service
+      shell: sudo ntpdate mds5.hunter.local
+    
+    - name: start ntp service
+      service: ntp
+      state: started
         
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
