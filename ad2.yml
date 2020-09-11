@@ -1,0 +1,42 @@
+---
+- name: Install and configure AD authentication
+  hosts: all
+  gather_facts: no
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  
+  tasks:    
+    - name: Join system to AD and add the computer object in the Linux OU
+      shell: |
+        echo "{{ bind_password }}" | sudo realm join HUNTER.LOCAL -v --user=tk912
+        realm permit -g cstest
+        realm list
+      register: results
+    
+    - name: See the results
+      debug:
+        msg: "{{ results }}"
+
+    - name: Add default_domain_suffix to sssd.conf
+      lineinfile:
+        dest: /etc/sssd/sssd.conf
+        line: 'default_domain_suffix = hunter.local'
+        insertafter: '^\[sssd\]'
+      notify:
+        - restart sssd
+
+    - name: Allow the cstest group to logon to the system
+      command: /bin/bash -c "/usr/sbin/realm permit -g cstest"
+
+  handlers:
+    - name: restart realmd
+      service:
+        name: realmd
+        state: restarted
+
+    - name: restart sssd
+      service:
+        name: sssd
+        state: restarted
