@@ -18,20 +18,27 @@
     - name: Install pexpect using pip
       pip:
         name: pexpect
-      become_user: root
-      
+        
+
+    - name: Add mds5 to hosts file
+      lineinfile:
+        path: /etc/hosts
+        line: '146.95.1.52 mds5.hunter.local mds5'
+        line: last
+        
+        backup: yes
+      notify:
+        - restart sssd      
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
         echo bind_password | realm join –-user=tk912	HUNTER.LOCAL
         realm permit -g cstest
         realm list
       register: results
-      become_user: root
     
     - name: See the results
       debug:
         msg: "{{ results }}"
-      become_user: root
 
     - name: Add default_domain_suffix to sssd.conf
       lineinfile:
