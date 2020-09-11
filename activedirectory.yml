@@ -24,7 +24,6 @@
       lineinfile:
         path: /etc/hosts
         line: '146.95.1.52 mds5.hunter.local mds5'
-        line: last
         
         backup: yes
       notify:
