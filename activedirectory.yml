@@ -55,7 +55,7 @@
         
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
-        echo "{{ bind_password }}" | sudo realm join hunter.local -v -u tk912
+        echo "{{ bind_password }}" | sudo realm join HUNTER.LOCAL -v --user=tk912
         realm permit -g cstest
         realm list
       register: results
