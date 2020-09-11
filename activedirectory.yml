@@ -43,14 +43,14 @@
         backup: yes
  
     - name: stop ntp service
-      service: name=ntpd state=stopped enabled=yes
+      service: name=ntp state=stopped enabled=yes
       tags: ntp
  
     - name: update ntp service
       shell: ntpdate mds5.hunter.local
     
     - name: start ntp service
-      service: name=ntpd state=running enabled=yes
+      service: name=ntp state=running enabled=yes
       tags: ntp
         
     - name: Join system to AD and add the computer object in the Linux OU
