@@ -4,11 +4,7 @@
   gather_facts: no
   become: yes
   become_user: root
-  vars_prompt:
-    - name: "bind_password"
-      prompt: "Password for tk912@hunter.local"
-      private: yes
-
+  
   tasks:
     - name: Install the required packages
       apt:
@@ -30,7 +26,7 @@
     - name: Add default_domain_suffix to sssd.conf
       lineinfile:
         dest: /etc/sssd/sssd.conf
-        line: 'default_domain_suffix = yallalabs.local'
+        line: 'default_domain_suffix = hc2.local'
         insertafter: '^\[sssd\]'
       notify:
         - restart sssd
