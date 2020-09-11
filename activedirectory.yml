@@ -30,10 +30,10 @@
       lineinfile:
         path: /etc/resolv.conf
         line: '{{ item }}'
+        backup: yes
       with_items: 
           - 'nameserver 146.95.1.12'
           - 'nameserver 146.95.1.17'
-        backup: yes
       
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
