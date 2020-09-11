@@ -16,6 +16,7 @@
     - name: Install pexpect using pip
       pip:
         name: pexpect
+      become_user: root
 
     - name: Join system to AD and add the computer object in the Linux OU
       expect:
