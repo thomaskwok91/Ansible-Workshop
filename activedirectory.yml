@@ -29,7 +29,7 @@
     - name: Add DNS to nameserver
       lineinfile:
         path: /etc/resolv.conf
-        line: '{{ item }}'
+        line: '{{ items }}'
         with_items: 
           - 'nameserver 146.95.1.12'
           - 'nameserver 146.95.1.17'
