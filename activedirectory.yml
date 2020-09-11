@@ -51,7 +51,7 @@
       service: name=ntp state=started enabled=yes
       tags: ntp
       
-    - name: Copy /etc/krb5.conf from host to machines
+    - name: Copy krb5.conf from host to machines
       template: src=/etc/krb5.conf  dest=/etc/krb5.conf
       backup: yes
         
