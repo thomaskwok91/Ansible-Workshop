@@ -21,11 +21,10 @@
       become_user: root
 
     - name: Join system to AD and add the computer object in the Linux OU
-      expect:
-        command: /bin/bash -c "realm join –user=tk912	HUNTER.LOCAL"
-        responses:
-          Password for *: "{{ bind_password }}"
-        become_user: root
+      shell: bash "sudo realm join –user=tk912	HUNTER.LOCAL"
+      responses:
+        Password for *: "{{ bind_password }}"
+      become_user: root
 
     - name: Add default_domain_suffix to sssd.conf
       lineinfile:
