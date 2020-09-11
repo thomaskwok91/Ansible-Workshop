@@ -19,7 +19,6 @@
       pip:
         name: pexpect
         
-
     - name: Add mds5 to hosts file
       lineinfile:
         path: /etc/hosts
@@ -53,7 +52,6 @@
       
     - name: Copy krb5.conf from host to machines
       template: src=/etc/krb5.conf  dest=/etc/krb5.conf
-      backup: yes
         
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
