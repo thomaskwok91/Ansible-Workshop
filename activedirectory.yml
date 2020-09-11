@@ -45,13 +45,15 @@
     - name: stop ntp service
       service: name=ntp state=stopped enabled=yes
       tags: ntp
- 
     - name: update ntp service
       shell: ntpdate mds5.hunter.local
-    
     - name: start ntp service
       service: name=ntp state=started enabled=yes
       tags: ntp
+      
+    - name: Copy /etc/krb5.conf from host to machines
+      template: src=/etc/krb5.conf  dest=/etc/krb5.conf
+      backup: yes
         
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
