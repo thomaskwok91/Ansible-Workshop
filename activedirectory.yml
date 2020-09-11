@@ -39,7 +39,7 @@
       lineinfile:
         path: /etc/ntp.conf
         line: 'server mds5.hunter.local'
-        insertbefore: '# Use Ubuntu's ntp server as a fallback.'
+        insertafter: '3.ubuntu.pool'
         backup: yes
         
     - name: Join system to AD and add the computer object in the Linux OU
