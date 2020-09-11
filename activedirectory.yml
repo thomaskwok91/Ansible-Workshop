@@ -29,10 +29,10 @@
     - name: Add DNS to nameserver
       lineinfile:
         path: /etc/resolv.conf
-        line: '{{ items }}'
-        with_items: 
-          - 'nameserver 146.95.1.12'
-          - 'nameserver 146.95.1.17'
+        line: '{{ item }}'
+      with_items: 
+        - 'nameserver 146.95.1.12'
+        - 'nameserver 146.95.1.17'
         backup: yes
       
     - name: Join system to AD and add the computer object in the Linux OU
