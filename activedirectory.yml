@@ -22,14 +22,15 @@
 
     - name: Join system to AD and add the computer object in the Linux OU
       expect:
-        command: /bin/bash -c "/usr/sbin/realm join --user=tk912 hunter.local"
+        command: /bin/bash -c "realm join –user=tk912	HUNTER.LOCAL"
         responses:
           Password for *: "{{ bind_password }}"
+        become_user: root
 
     - name: Add default_domain_suffix to sssd.conf
       lineinfile:
         dest: /etc/sssd/sssd.conf
-        line: 'default_domain_suffix = hc2.local'
+        line: 'default_domain_suffix = hunter.local'
         insertafter: '^\[sssd\]'
       notify:
         - restart sssd
