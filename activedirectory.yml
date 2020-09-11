@@ -31,6 +31,7 @@
         path: /etc/resolv.conf
         line: 'nameserver 146.95.1.12'
         line: 'nameserver 146.95.1.17'
+        insertafter: 'nameserver 146.95.1.12'
         backup: yes
       
     - name: Join system to AD and add the computer object in the Linux OU
