@@ -23,11 +23,16 @@
     - name: Add mds5 to hosts file
       lineinfile:
         path: /etc/hosts
-        line: '146.95.1.52 mds5.hunter.local mds5'
-        
+        line: '146.95.1.52  mds5.hunter.local mds5'
         backup: yes
-      notify:
-        - restart sssd      
+      
+    - name: Add DNS to nameserver
+      lineinfile:
+        path: /etc/resolv.conf
+        line: 'nameserver 146.95.1.12'
+        line: 'nameserver 146.95.1.17'
+        backup: yes
+      
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
         echo bind_password | realm join –-user=tk912	HUNTER.LOCAL
