@@ -10,7 +10,7 @@
   tasks:
     - name: Install the required packages
       apt:
-        name: ['krb5-user', 'samba', 'sssd', 'sssd-tools', 'libnss-sss', 'libpam-sss', 'ntp', 'ntpdate', 'realmd', 'adcli']
+        name: ['krb5-user', 'samba', 'sssd', 'sssd-tools', 'libnss-sss', 'libpam-sss', 'ntp', 'ntpdate', 'realmd', 'adcli', 'oddjob', 'oddjob-mkhomedir']
         state: present
       notify:
         - restart realmd
