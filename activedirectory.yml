@@ -65,20 +65,28 @@
         realm permit -g cstest
         realm list
         
-    - name: Add default_domain_suffix to sssd.conf
+    - name: Change use_fully_qualified_names in sssd.conf
       lineinfile:
         dest: /etc/sssd/sssd.conf
-        line: 'default_domain_suffix = hunter.local'
-        insertafter: '^\[sssd\]'
+        regexp: 'use_fully_qualified_names = True'
+        line: 'use_fully_qualified_names = False'
+
+    - name: Add GPO line in sssd.conf
+      lineinfile:
+        dest: /etc/sssd/sssd.conf
+        line: '{{ item }}'
+      with_items:
+        - 'ad_gpo_access_control = disabled'
+        - 'ignore_group_members = true'
       notify:
         - restart sssd
-
+        
     - name: Add mkhomedir to pam.d file
       lineinfile:
         dest: /etc/pam.d/common-session
         line: 'session required pam_mkhomedir.so skel=/etc/skel/  umask=0077'
         insertbefore: '# end of pam-auth-update config'
-    
+        
     - name: Allow the cstest group to logon to the system
       command: /bin/bash -c "/usr/sbin/realm permit -g cstest"
 
