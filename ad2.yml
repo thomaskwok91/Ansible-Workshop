@@ -8,11 +8,57 @@
     ansible_python_interpreter: /usr/bin/python3
   
   tasks:
-    - name: Make directory /etc/krb5.conf.d/
+    - name: Install the required packages
+      apt:
+        name: ['krb5-user', 'samba', 'sssd', 'sssd-tools', 'libnss-sss', 'libpam-sss', 'ntp', 'ntpdate', 'realmd', 'adcli', 'oddjob', 'oddjob-mkhomedir']
+        state: present
+      notify:
+        - restart realmd
+
+    - name: Install pexpect using pip
+      pip:
+        name: pexpect
+        
+    - name: Add mds5 to hosts file
+      lineinfile:
+        path: /etc/hosts
+        line: '146.95.1.52  mds5.hunter.local mds5'
+        backup: yes
+      
+    - name: Add DNS to nameserver
+      lineinfile:
+        path: /etc/resolv.conf
+        line: '{{ item }}'
+        backup: yes
+      with_items: 
+          - 'nameserver 146.95.1.12'
+          - 'nameserver 146.95.1.17'
+          
+    - name: Configure ntp clock
+      lineinfile:
+        path: /etc/ntp.conf
+        line: 'server mds5.hunter.local'
+        insertafter: '3.ubuntu.pool'
+        backup: yes
+ 
+    - name: stop ntp service
+      service: name=ntp state=stopped enabled=yes
+      tags: ntp
+    - name: update ntp service
+      shell: ntpdate mds5.hunter.local
+    - name: start ntp service
+      service: name=ntp state=started enabled=yes
+      tags: ntp
+      
+    - name: Copy krb5.conf from host to machines
+      template: src=/etc/krb5.conf  dest=/etc/krb5.conf
+    
+    - name: Create /etc/krb5.conf.d directory if doesn't exist
       file:
         path: /etc/krb5.conf.d/
         state: directory
         mode: '0755'
+        
     - name: Join system to AD and add the computer object in the Linux OU
       shell: |
         echo "{{ bind_password }}" | sudo realm join mds5 -v --user=tk912
@@ -31,7 +77,24 @@
         insertafter: '^\[sssd\]'
       notify:
         - restart sssd
+    
+    - name: Change use_fully_qualified_names in sssd.conf
+      lineinfile:
+        dest: /etc/sssd/sssd.conf
+        regexp: 'use_fully_qualified_names = True'
+        line: 'use_fully_qualified_names = False'
+      notify:
+        - restart sssd
 
+    - name: Add GPO line in sssd.conf
+      lineinfile:
+        dest: /etc/sssd/sssd.conf
+        line: '{{ item }}'
+      with_items:
+        - 'ad_gpo_access_control = disabled'
+        - 'ignore_group_members = true'
+      notify:
+        - restart sssd
     - name: Allow the cstest group to logon to the system
       command: /bin/bash -c "/usr/sbin/realm permit -g cstest"
 
