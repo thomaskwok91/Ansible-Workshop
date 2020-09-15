@@ -78,23 +78,6 @@
       notify:
         - restart sssd
     
-    - name: Change use_fully_qualified_names in sssd.conf
-      lineinfile:
-        dest: /etc/sssd/sssd.conf
-        regexp: 'use_fully_qualified_names = True'
-        line: 'use_fully_qualified_names = False'
-      notify:
-        - restart sssd
-
-    - name: Add GPO line in sssd.conf
-      lineinfile:
-        dest: /etc/sssd/sssd.conf
-        line: '{{ item }}'
-      with_items:
-        - 'ad_gpo_access_control = disabled'
-        - 'ignore_group_members = true'
-      notify:
-        - restart sssd
     - name: Allow the cstest group to logon to the system
       command: /bin/bash -c "/usr/sbin/realm permit -g cstest"
 
