@@ -6,6 +6,7 @@
   -  name: Root FS usage
      shell: df -h {{ FS_MOUNTPOINT }} |awk ' { print $5 } ' |grep -v Use
      # the FS_MOUNTPOINT will be put on the Survey section of Ansible Tower
+     # To use survey to call upon something in Ansible
      register: dfroot
 
   -  debug:
